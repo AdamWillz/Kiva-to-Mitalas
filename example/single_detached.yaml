@@ -1,0 +1,106 @@
+Simulation Control:
+  Start Date: 2015-Jan-1
+  End Date: 2015-Dec-31
+  Timestep: 60 # [min]
+
+Materials:
+  Typical Soil:
+    Conductivity: 0.85  # [W/m-K]
+    Density: 1490.0  # [kg/m3]
+    Specific Heat: 1765.0  # [J/kg-K]
+  Concrete:
+    Conductivity: 1.95  # [W/m-K]
+    Density: 2240.0  # [kg/m3]
+    Specific Heat: 900.0  # [J/kg-K]
+  XPS:
+    Conductivity: 0.028  # [W/m-K]
+    Density: 40.0  # [kg/m3]
+    Specific Heat: 1500.0  # [J/kg-K]
+  Gypsum:
+    Conductivity: 0.159
+    Density: 800.0
+    Specific Heat: 1090.0
+  Batt:
+    Conductivity: 0.05
+    Density: 19.0
+    Specific Heat: 960.0
+  Assembly:
+    Conductivity: 0.134
+    Density: 106.6
+    Specific Heat: 1344.0
+
+Foundation:
+  Soil: Typical Soil  # Material reference
+  Polygon:
+    - [0, 0]
+    - [0, 10.64]
+    - [3.51, 10.64]
+    - [3.51, 11.61]
+    - [4.12, 11.61]
+    - [4.12, 12.09]
+    - [6.29, 12.09]
+    - [6.29, 11.61]
+    - [11.72,11.61]
+    - [11.72,6.86]
+    - [6.27,6.86]
+    - [6.27,1.23]
+    - [3.89,1.23]
+    - [3.89,0.00]
+
+  Foundation Depth: 2.47  # [m]
+
+  Slab:
+    Layers:
+      -
+        Material: Concrete
+        Thickness: 0.075
+  Wall:
+    Layers:
+      -
+        Material: Concrete
+        Thickness: 0.200
+    Height Above Grade: 0.353  # [m]
+    Depth Below Slab: 0.0  # [m]
+  Interior Vertical Insulation:
+    Material: Assembly # Material reference
+    Thickness: 0.2097 # [m] 
+    Depth: 2.47  # [m]
+  Footing:
+    Material: Concrete # Material reference
+    Depth: 0.150 # [m]
+    Width: 0.500 # [m]
+
+Boundaries:
+  Indoor Air Temperature: 293.65 # [K]
+
+Output:
+  Output Report:
+    Minimum Frequency: 60  # [min]
+    Reports:
+      #- 0 # Slab Core Average Heat Flux [W/m2]
+      #- 1 # Slab Core Average Temperature [K]
+      #- 2 # Slab Core Average Effective Temperature [C]
+      #- 3 # Slab Core Total Heat Transfer Rate [W]
+      #- 4 # Slab Perimeter Average Heat Flux [W/m2]
+      #- 5 # Slab Perimeter Average Temperature [K]
+      #- 6 # Slab Perimeter Average Effective Temperature [C]
+      #- 7 # Slab Perimeter Total Heat Transfer Rate [W]
+      - 8 # Slab Average Heat Flux [W/m2]
+      - 9 # Slab Average Temperature [K]
+      - 10 # Slab Total Heat Transfer Rate [W]
+      - 11 # Wall Average Heat Flux [W/m2]
+      - 12 # Wall Average Temperature [K]
+      - 13 # Wall Average Effective Temperature [C]
+      - 14 # Wall Total Heat Transfer Rate [W]
+      - 15 # Foundation Average Heat Flux [W/m2]
+      - 16 # Foundation Average Temperature [K]
+      - 17 # Foundation Total Heat Transfer Rate [W]
+#  Output Snapshots:
+#    -
+#     Directory: Output
+#     Size: 800
+#     Frequency: 1
+#     Start Date: 2015-Dec-21
+#     End Date: 2015-Dec-21
+#     X Range: [0, 10]
+#     Z Range: [-5, 0.632]
