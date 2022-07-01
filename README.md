@@ -18,20 +18,52 @@ where $Q_{fdn}  \left(t\right)$ is the total foundation heat loss \[W\] at hour 
 
 $$Q_{fdn,ag}  \left(t\right)= S_{ag}\cdot\left[ T_{bsmt} - T_{amb}\left(t\right)\right]$$
 
-where $S_{ag}$ is the above-grade three-dimensional shape factor \[W/K\], $T_{bsmt}$ is the nominal air temperature in the basement \[W/K\], and $T_{amb}\left(t\right)\right]$ is the outdoor ambient drybulb temperature \[$^o$C\].
+where $S_{ag}$ is the above-grade three-dimensional shape factor \[W/K\], $T_{bsmt}$ is the nominal air temperature in the basement \[W/K\], and $T_{amb}\left(t\right)$ is the outdoor ambient drybulb temperature \[degC\].
 
 The two below-grade heat loss components are expressed as:
 
 $$Q_{fdn,bg,avg}=S_{bg,avg}\cdot\left( T_{bsmt} - T_{g,avg}\right)$$
+
 $$Q_{fdn,bg,var} \left(t\right)=S_{bg,var}\cdot T_{g,var}\cdot sin\left(\omega\cdot t + \phi - \frac{\pi}{2} - \theta\right)$$
 
-where $S_{bg,avg}$ is the average below-grade three-dimensional shape factor \[W/K\], $T_{g,avg}$ is the average ambient temperature of the year \[$^o$C\], $S_{bg,var}$ is the below-grade shape factor amplitude \[W/K\], $T_{g,var}$ is the amplitude of the ambient temperature variation over the year, $\phi$ is the foundation thermal response phase shift \[rad\], $\theta$ is the phase lag of the ambient temperature \[rad\], and $\omega$ is the system frequency \[rad/h\]. Foundation heat loss follows an annual cycle, thus $\omega = \left(2\cdot\pi\right)\div 8760$.
+where
+- $S_{bg,avg}$ is the average below-grade three-dimensional shape factor \[W/K\]
+- $T_{g,avg}$ is the average ambient temperature of the year \[degC\]
+- $S_{bg,var}$ is the below-grade shape factor amplitude \[W/K\]
+- $T_{g,var}$ is the amplitude of the ambient temperature variation over the year \[degC\]
+- $\phi$ is the foundation thermal response phase shift \[rad\]
+- $\theta$ is the phase lag of the ambient temperature \[rad\]
+- $\omega$ is the system frequency \[rad/h\]
 
-Model inputs may be divided into two groups: climate and foundation. The climate inputs are $T_{amb}\left(t\right)$, $T_{g,avg}$, $T_{g,var}$, and $\theta$. The foundation inputs are $S_{ag}$, $T_{bsmt}$, $S_{bg,avg}$, $S_{bg,var}$, and $\phi$. If the soil thermophysical properties and water table depth is assumed to not change, the foundation inputs can be used with different climate inputs to estimate foundation heat loss in those different climates.
+Foundation heat loss follows an annual cycle, thus $\omega = \left(2\cdot\pi\right)\div 8760$.
+
+Model inputs may be divided into two groups: climate and foundation. The climate inputs are:
+- $T_{amb}\left(t\right)$
+- $T_{g,avg}$
+- $T_{g,var}$
+- $\theta$
+
+The foundation inputs are:
+- $S_{ag}$
+- $T_{bsmt}$
+- $S_{bg,avg}$
+- $S_{bg,var}$
+- $\phi$
+
+If the soil thermophysical properties and water table depth is assumed to not change, the foundation inputs can be used with different climate inputs to estimate foundation heat loss in those different climates.
 
 ### Determining the Mitalas Model Inputs
 
-For a given KIVA input file and climate file pair, the script first determines the Mitalas model climate inputs. KIVA uses EPW format climate files, and the script first extracts the hourly drybulb temperatures for the year. A Discrete Fourier Transform (DFT) is then performed on the real-number data to determine $T_{g,avg}$, $T_{g,var}$, and $\theta$, where $T_{g,var}$, and $\theta$ are the amplitude and phase shift of the first harmonic.
+For a given KIVA input file and climate file pair, the script first determines the Mitalas model climate inputs. KIVA uses EPW format climate files, and the script first extracts the hourly drybulb temperatures for the year. A Discrete Fourier Transform (DFT) is then performed on the real-number data to determine:
+- $T_{g,avg}$
+- $T_{g,var}$
+- $\theta$
+
+where:
+- $T_{g,var}$ 
+- $\theta$
+
+are the amplitude and phase shift of the first harmonic.
 
 The KIVA input file is then opened by the script, and $S_{ag}$ is estimated using the one-dimensional U-value of the above-grade wall assembly multiplied by the above-grade wall area. The script then calls KIVA to get the hourly total foundation heat loss. The below-grade foundation heat loss is then estimated by subtracting $Q_{fdn,ag}$ from the total heat loss for each simulated timestep. The remaining Mitalas model foundation inputs are then determined by performing a DFT on the below-grade heat loss data.
 
@@ -59,11 +91,11 @@ python KIVAtoMitalas.py --input <INPUT_YML> --climate <EPW_FILE> --output <OUTPU
 where `<INPUT_YML>` is the KIVA foundation input file, `<EPW_FILE>` is the annual climate EPW file, and `<OUTPUT>` is the name of the report output file.
 
 The user must first define a KIVA foundation input file. Instructions on how to do this are provided [here](https://kiva.readthedocs.io/en/stable/input-def/). The `Simulation Control` input group must have the following inputs:
-- `Start Date: <YEAR>-Jan-1
-- `End Date: <YEAR>-Dec-31
+- `Start Date: <YEAR>-Jan-1`
+- `End Date: <YEAR>-Dec-31`
 - `Timestep: 60 # [min]`
 
-where `<YEAR>` corresponds to the year in the EPW file.\
+where `<YEAR>` corresponds to the year in the EPW file.
 
 ***NOTE:*** Take care in selecting `Boundaries: Indoor Air Temperature`. This should match the nominal estimated air temperature of the basement. Testing has shown that $S_{bg,avg}$ is sensitive to the selection of this value.
 
