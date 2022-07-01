@@ -6,7 +6,7 @@ This script was developed to run annual foundation heat loss simulations using t
 
 ### KIVA Overview
 
-KIVA uses two-dimensional finite difference heat transfer calculations to determine foundation heat loss at a user-selected discrete time interval. KIVA can model several polygon footprint shapes with concave and convex corners; the only caveat is that all corners must be right angles. Heat losses in the corners are accounted for using the method from [Kruis and Krarti (2017)](https://www.tandfonline.com/doi/full/10.1080/19401493.2014.988753). More details can be found [here](https://bigladdersoftware.com/epx/docs/8-7/engineering-reference/ground-heat-transfer-calculations-using-kiva.html) and [here](https://bigladdersoftware.com/projects/kiva/). How to use KIVA and setup in input file is provided [here](https://bigladdersoftware.com/projects/kiva/).
+KIVA uses two-dimensional finite difference heat transfer calculations to determine foundation heat loss at a user-selected discrete time interval. KIVA can model several polygon footprint shapes with concave and convex corners; the only caveat is that all corners must be right angles. Heat losses in the corners are accounted for using the method from [Kruis and Krarti (2017)](https://www.tandfonline.com/doi/full/10.1080/19401493.2014.988753). More details can be found [here](https://bigladdersoftware.com/epx/docs/8-7/engineering-reference/ground-heat-transfer-calculations-using-kiva.html) and [here](https://bigladdersoftware.com/projects/kiva/). How to use KIVA and setup the input file is provided [here](https://bigladdersoftware.com/projects/kiva/).
 
 ### Mitalas Method Overview
 
